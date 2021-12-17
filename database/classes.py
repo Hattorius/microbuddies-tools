@@ -40,26 +40,30 @@ class trait:
                 if dominant[2] == self.type:
                     possibleCombinationDominant.append(json.dumps(dominant))
                     z = round(utils.calculateSubstringPercentage(self.trait_name, dominant[4])/10)
+                    if z > 0:
+                        for _ in range(z):
+                            possibleCombinationDominant.append(json.dumps(dominant))
         probablyDominant = json.loads(max(set(possibleCombinationDominant), key=possibleCombinationDominant.count))
         possibleCombinationRecessive = []
         for microbud in possibleParentsWithWays:
             y = 4
             for recessive in microbud.recessives:
+                if recessive[2] != self.type:
+                    continue
                 # print(probablyDominant[4], self.trait_name, recessive[4])
                 # print(utils.calculateSubstringPercentage(probablyDominant[4], recessive[4]))
                 # print(utils.calculateSubstringPercentage(self.trait_name, recessive[4]))
                 if int(recessive[3]) == 255 or int(recessive[3]) == 0 or json.dumps(recessive) in possibleCombinationRecessive or recessive[3] == probablyDominant[3] or int(recessive[3]) > int(self.trait_value):
                     continue
-                if recessive[2] == self.type:
-                    for _ in range(y):
+                for _ in range(y):
+                    possibleCombinationRecessive.append(json.dumps(recessive))
+                z = round(utils.calculateSubstringPercentage(self.trait_name, recessive[4])/10) - round(utils.calculateSubstringPercentage(probablyDominant[4], recessive[4])/10)
+                if z == 0:
+                    continue
+                if z > 0:
+                    for _ in range(z):
                         possibleCombinationRecessive.append(json.dumps(recessive))
-                    z = round(utils.calculateSubstringPercentage(self.trait_name, recessive[4])/10) - round(utils.calculateSubstringPercentage(probablyDominant[4], recessive[4])/10)
-                    if z == 0:
-                        continue
-                    if z > 0:
-                        for _ in range(z):
-                            possibleCombinationRecessive.append(json.dumps(recessive))
-                    y -= 1
+                y -= 1
         probablyRecessive = json.loads(max(set(possibleCombinationRecessive), key=possibleCombinationRecessive.count))
         self.mutantDom = probablyDominant
         self.mutantRec = probablyRecessive

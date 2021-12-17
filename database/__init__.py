@@ -28,7 +28,7 @@ class db:
             query += "rarity='" + str(rarity) + "'"
         if mutation is not None:
             query += " AND " if "WHERE" in query else " WHERE "
-            query += "mutation='" + "1" if mutation else "0" + "'"
+            query += "mutation='" + ("1" if mutation else "0") + "'"
         if value is not None:
             query += " AND " if "WHERE" in query else " WHERE "
             query += "value='" + value + "'"
