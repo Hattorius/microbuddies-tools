@@ -14,6 +14,9 @@ class trait:
     def __repr__(self) -> str:
         return str(self.__dict__)
     
+    def findBuddiesWith(self) -> any:
+        return self.connection.getMicrobuddies(dominantSearch=self.trait_name)
+    
     def findMutationWay(self) -> None:
         microbuddiesWithTrait = self.connection.getMicrobuddies(dominantSearch=self.trait_name, species=self.buddytype)
         possibleParentsWithWays = []
@@ -50,9 +53,6 @@ class trait:
             for recessive in microbud.recessives:
                 if recessive[2] != self.type:
                     continue
-                # print(probablyDominant[4], self.trait_name, recessive[4])
-                # print(utils.calculateSubstringPercentage(probablyDominant[4], recessive[4]))
-                # print(utils.calculateSubstringPercentage(self.trait_name, recessive[4]))
                 if int(recessive[3]) == 255 or int(recessive[3]) == 0 or json.dumps(recessive) in possibleCombinationRecessive or recessive[3] == probablyDominant[3] or int(recessive[3]) > int(self.trait_value):
                     continue
                 for _ in range(y):

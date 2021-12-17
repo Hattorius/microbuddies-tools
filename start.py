@@ -5,4 +5,6 @@
 """
 
 from database import db
-db = db("localhost", "root", "gay", "microbuddiesv2")
+microbuddiesv2 = db("localhost", "root", "gay", "microbuddiesv2")
+
+a = microbuddiesv2.getTraits(mutation=True, buddytype="Virus", type="Body Patterns")[0]
